@@ -8,7 +8,7 @@ from news import models
 @admin.register(models.NewsItem)
 class NewsItemAdmin(admin.ModelAdmin):
     list_display = ('title', 'author', 'pub_date')
-    list_filter = ('published_date', 'author')
+    list_filter = ('pub_date', 'author')
     search_fields = ('title', 'content')
 
 
