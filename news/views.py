@@ -33,7 +33,8 @@ def profile(request):
 
 @login_required
 def blogs(request):
-    return render(request, 'news/blogs.html')
+    blog_list = models.NewsItem.objects.order_by('-pub_date')
+    return render(request, 'news/blogs.html', {'blogs': blog_list})
 
 
 @login_required

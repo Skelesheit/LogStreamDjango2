@@ -8,5 +8,63 @@
 {% endblock %}
 
 {% block content %}
+<div class="d-flex flex-row gap-4 mt-4 mx-2">
+    <div class="card" style="width: 46rem; height: 3.5rem">
+      <div class="card-header">
+            <div class="d-flex flex-row justify-content-between align-items-center">
+                <h6>Ваши новости</h6>
+                <div class="d-flex flex-row gap-2 align-items-center">
+                    <div class="input-group">
+                      <span class="input-group-text" id="inputGroup-sizing-default">Поиск</span>
+                      <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                    </div>
+                    <button class="bg-primary align-self-center rounded-1 border-0" style="width: 2rem;">
+                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="none" viewBox="0 0 24 24">
+                           <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"/>
+                        </svg>
+                    </button>
+                </div>
 
+                <button class="btn btn-outline-success"
+                        onclick="window.location.href='{% url 'news:create_blog' %}'">
+                    Создать
+                </button>
+
+            </div>
+          <div class="card-body mt-2">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"></li>
+            </ul>
+          </div>
+        </div>
+    </div>
+
+    <div class="card" style="width: 46rem; height: 3.5rem">
+      <div class="card-header">
+            <div class="d-flex flex-row justify-content-between align-items-center">
+                <h6>Ваши комментарии</h6>
+                <div class="d-flex flex-row gap-2 align-items-center">
+                    <div class="input-group">
+                      <span class="input-group-text" id="inputGroup-sizing-default">Поиск</span>
+                      <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                    </div>
+                    <button class="bg-primary align-self-center rounded-1 border-0" style="width: 2rem;"
+                            >
+                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="none" viewBox="0 0 24 24">
+                           <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"/>
+                        </svg>
+                    </button>
+                </div>
+
+            </div>
+          <div class="card-body mt-2">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+
+                </li>
+            </ul>
+          </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
