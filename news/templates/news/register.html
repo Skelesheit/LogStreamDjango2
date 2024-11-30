@@ -1,0 +1,40 @@
+{%  extends 'news/layout.html' %}
+{% load static %}
+
+{% block title %} Новости {% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/news_list.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="d-flex flex-column align-items-center mt-4">
+    <div class="card">
+  <div class="card-body mb-3" style="width: 30rem">
+      <h2 class="align-center text-center"> Регистрация </h2>
+    <form method="POST" action="{% url 'news:register' %}">
+        {% csrf_token %}
+      <div class="mb-3">
+        <label for="username" class="form-label">username</label>
+        <input name="username" type="text" class="form-control" id="username" aria-describedby="emailHelp">
+        <div id="emailHelp" class="form-text">Как вас будем называть?</div>
+      </div>
+      <div class="mb-3">
+        <label for="email" class="form-label">Email address</label>
+        <input name="email" type="email" class="form-control" id="email" aria-describedby="emailHelp">
+        <div id="emailHelp" class="form-text">мы никому не сообщим ваш email.</div>
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">Password</label>
+        <input name="password" type="password" class="form-control" id="exampleInputPassword1" aria-describedby="password">
+        <div id="emailHelp" class="form-text">Никому не сообщайте.</div>
+      </div>
+      <button type="submit" class="btn btn-primary">
+          Зарегестрироваться
+      </button>
+</form>
+  </div>
+</div>
+
+</div>
+{% endblock %}

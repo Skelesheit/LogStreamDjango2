@@ -1,0 +1,37 @@
+{%  extends 'news/layout.html' %}
+{% load static %}
+
+{% block title %} Новости {% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/news_list.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="d-flex flex-column align-items-center mt-4">
+    <div class="card">
+  <div class="card-body mb-3" style="width: 20rem">
+      <h2 class="align-center text-center"> Вход</h2>
+    <form method="POST" action="{% url 'news:login' %}">
+        {% csrf_token %}
+  <div class="mb-3">
+    <label for="usernameInput" class="form-label">Имя пользователя</label>
+    <input name="username" type="text" class="form-control" id="usernameInput">
+  </div>
+  <div class="mb-3">
+    <label for="passwordInput" class="form-label">Пароль</label>
+    <input name="password" type="password" class="form-control" id="passwordInput">
+  </div>
+  <div class="mb-3 form-check">
+    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+    <label class="form-check-label" for="exampleCheck1">сохранить вход</label>
+  </div>
+  <button type="submit" class="btn btn-primary">
+          Войти
+  </button>
+    </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

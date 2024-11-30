@@ -12,16 +12,57 @@
     {% block head %} {% endblock %}
 </head>
 <body>
-<div class="header">
-    <a class="fw-bold fs-3 mx-2">
-        <span class="text-info "> Skelesheit </span>
-        <span class="text-warning "> News </span>
-
+<div class="header bg-black p-2">
+    <a class=" fs-3 mx-2 text-decoration-none"
+        href="{% url 'news:index' %}">
+        <span class="text-info fw-bold"> Skelesheit </span>
+        <span class="text-warning fst-italic "> News </span>
     </a>
 
-    {% if user.authenticated %}
+    <div class="d-flex flex-row gap-2">
+        <button class="btn btn-dark">Новости</button>
+        <button class="btn btn-dark">Лента</button>
+        <button class="btn btn-dark">Контакты</button>
+    </div>
 
-    {% endif %}
+
+    <div class="d-flex flex-row ">
+        {% if user.is_authenticated and not user.is_staff %} <!-- авторизован -->
+            <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  {{ user.username }}
+              </button>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{% url 'news:profile' %}">Профиль</a></li>
+                <li><a class="dropdown-item" href="{% url 'news:profile' %}">Создать новость</a></li>
+                <li><a class="dropdown-item" href="{% url 'news:logout' %}">Выйти</a></li>
+              </ul>
+            </div>
+        {% endif %}
+
+        {% if user.is_authenticated and user.is_staff %} <!--админ-->
+            <button class="btn btn-outline-primary mx-2">
+            Админ
+            </button>
+            <button class="btn  btn-outline-primary mx-2"
+                onclick="window.location.href='{% url 'news:logout' %}'">
+                Выйти
+            </button>
+        {% else %} <!-- не авторизован -->
+        <button class="btn  btn-outline-primary mx-2"
+                onclick="window.location.href='{% url 'news:login_form' %}'">
+                Войти
+        </button>
+        <button class="btn  btn-outline-primary mx-2"
+                onclick="window.location.href='{% url 'news:register_form' %}'">
+                Регистрация
+        </button>
+        {% endif %}
+
+    </div>
+
+
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

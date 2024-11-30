@@ -10,7 +10,7 @@ class NewsItem(models.Model):
     content = models.TextField()
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     pub_date = models.DateTimeField('date published', auto_now_add=True)
-    picture = models.ImageField(upload_to='pictures')
+    picture = models.ImageField(upload_to='news_pictures/')
 
     def __str__(self):
         return self.title
@@ -21,7 +21,7 @@ class Comment(models.Model):
     content = models.TextField()
     pub_date = models.DateTimeField('date published', auto_now_add=True)
     NewsItem = models.ForeignKey(NewsItem, on_delete=models.CASCADE)
-    picture = models.ImageField(upload_to='pictures')
+    picture = models.ImageField(upload_to='comment_pictures/')
 
     def __str__(self):
         return self.author.username + ' ' + self.content

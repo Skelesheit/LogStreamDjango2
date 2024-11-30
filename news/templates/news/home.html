@@ -1,0 +1,50 @@
+{%  extends 'news/layout.html' %}
+{% load static %}
+
+{% block title %} Новости {% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/news_list.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="d-flex flex-column align-items-center my-4 gap-4">
+      <div class="card">
+        <div class="card-body" >
+            <div class="card-body fs-1 position-relative align-items-center justify-content-center"
+                 style="width: 20rem; height: 8rem">
+                <p class="position-absolute top-0 start-0 text-info fw-bold "> Skelesheit </p>
+                <p class="position-absolute bottom-0 start-50 text-warning fst-italic "> News </p>
+            </div>
+        </div>
+      </div>
+        <div class="card">
+          <div class="card-body my-3" style="width: 50rem; height: 10rem" >
+            <p>Добро пожаловать на наш сайт! Здесь вы найдёте самые свежие и иннтересные новости!</p>
+              <p>Связаться с нами можно через контакты</p>
+              <p>Навигационное меню находится ниже</p>
+          </div>
+        </div>
+
+        <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+              {% for newsItem in news_list %}
+            <div class="carousel-item active">
+              <img src="{{ newsItem.picture.url }}" class="d-block w-100" alt="{{title}}">
+                <h2>{{ newsItem.title }}</h2>
+                <p>{{ news.content|truncatewords:20 }}</p>
+                <a>Узнать</a>
+            </div>
+              {% endfor %}
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+    </div>
+{% endblock %}

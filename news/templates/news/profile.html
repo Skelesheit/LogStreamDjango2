@@ -1,0 +1,14 @@
+{%  extends 'news/layout.html' %}
+{% load static %}
+
+{% block title %} Новости {% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/news_list.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="d-flex flex-column align-items-center mt-4">
+    <h1>Hi {{ user.username }} {{ user.email }}</h1>
+</div>
+{% endblock %}
