@@ -23,6 +23,7 @@ from djangoProject1 import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('news/', include('news.urls')),
+    path('authentication/', include('authentication.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:
