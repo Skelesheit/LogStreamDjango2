@@ -22,6 +22,9 @@
         {% else %}
           <p class="text-muted">Изображение отсутствует</p>
         {% endif %}
+        <p class="fw-bold">
+            Автор: {{ blog.author.username }}
+        </p>
         <small class="text-muted">
           Опубликовано: {{ blog.pub_date|date:"d.m.Y H:i" }}
         </small>
@@ -48,6 +51,7 @@
                 {% else %}
                   <p class="text-muted">Изображение отсутствует</p>
                 {% endif %}
+
                 <small class="text-muted">
                   Опубликовано: {{ blog.pub_date|date:"d.m.Y H:i" }}
                 </small>
