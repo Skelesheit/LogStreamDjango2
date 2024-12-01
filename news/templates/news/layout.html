@@ -45,7 +45,6 @@
               </ul>
             </div>
         {% endif %}
-
         {% if user.is_authenticated and user.is_staff %} <!--админ-->
             <button class="btn btn-outline-primary mx-2">
             Админ
@@ -54,7 +53,8 @@
                 onclick="window.location.href='{% url 'authentication:logout' %}'">
                 Выйти
             </button>
-        {% else %} <!-- не авторизован -->
+        {% endif %}
+        {% if not user.is_authenticated %} <!-- не авторизован -->
         <button class="btn  btn-outline-primary mx-2"
                 onclick="window.location.href='{% url 'news:login_form' %}'">
                 Войти

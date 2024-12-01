@@ -8,7 +8,11 @@ urlpatterns = [
     path('register_form/', views.register_form, name='register_form'),
     path('profile/', views.profile, name='profile'),
     path('blogs/', views.blogs, name='blogs'),
-    path('edit-blog/', views.edit_blog, name='edit_blog'),
-    path('create-blog/', views.create_blog, name='create_blog'),
+    path('create_blog_form/', views.create_blog_form, name='create_blog_form'),
+    path('create_blog', views.create_blog, name='create_blog'),
+    path('view_blog/<int:pk>/', views.view_blog, name='view_blog'),
+    path('delete/<int:pk>/', views.delete_blog, name='delete_blog'),
+    path('edit_blog/<int:pk>/', views.edit_blog_form, name='edit_blog'),
+    path('edit_blog/<int:pk>/', views.edit_blog, name='edit_blog'),
     path('contacts', views.get_contacts, name='contacts')
 ]

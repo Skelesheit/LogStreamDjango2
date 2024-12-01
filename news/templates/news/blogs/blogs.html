@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="d-flex flex-row gap-4 mt-4 mx-2">
+<div class="d-flex flex-row flex-wrap gap-4 mt-4 mx-2">
     <div class="card" style="width: 46rem; height: 3.5rem">
       <div class="card-header">
             <div class="d-flex flex-row justify-content-between align-items-center">
@@ -24,16 +24,35 @@
                         </svg>
                     </button>
                 </div>
-
                 <button class="btn btn-outline-success"
-                        onclick="window.location.href='{% url 'news:create_blog' %}'">
+                        onclick="window.location.href='{% url 'news:create_blog_form' %}'">
                     Создать
                 </button>
 
             </div>
           <div class="card-body mt-2">
             <ul class="list-group list-group-flush">
-                <li class="list-group-item"></li>
+                {% if blogs %}
+                    {% for blog in blogs %}
+                        <li class="list-group-item">
+                            <h5><a href="{% url 'news:view_blog' pk=blog.pk %}">{{ blog.title }}</a></h5>
+                            <p> {{ blog.pub_date }}</p>
+                            <div class="d-flex flex-row justify-content-end gap-2">
+                                <button class="btn btn-outline-info"
+                                        onclick="window.location.href='{% url 'news:edit_blog' pk=blog.pk %}'">
+                                        Изменить
+                                </button>
+                                <button class="btn btn-outline-danger"
+                                        onclick="window.location.href='{% url 'news:delete_blog' pk=blog.pk %}'">
+                                        Удалить
+                                </button>
+                            </div>
+                        </li>
+                    {% endfor %}
+                {% else %}
+                  <p>У вас пока нет опубликованных новостей.</p>
+                {% endif %}
+
             </ul>
           </div>
         </div>
@@ -59,9 +78,16 @@
             </div>
           <div class="card-body mt-2">
             <ul class="list-group list-group-flush">
-                <li class="list-group-item">
-
-                </li>
+                {% if comments %}
+                    {% for blog in comments %}
+                        <li class="list-group-item">
+                            <h5> {{ blog.title }}</h5>
+                            <p> {{ blog.pub_date }}</p>
+                        </li>
+                    {% endfor %}
+                {% else %}
+                  <p>У вас пока нет комментариев.</p>
+                {% endif %}
             </ul>
           </div>
         </div>

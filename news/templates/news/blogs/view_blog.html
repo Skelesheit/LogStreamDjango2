@@ -1,0 +1,31 @@
+{% extends 'news/layout.html' %}
+{% load static %}
+
+{% block title %} {{ blog.title }} {% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/news_detail.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="d-flex flex-column mt-4 align-items-center">
+  <div class="card" style="width: 40rem;">
+    <div class="card-header text-center">
+        <h3>{{ blog.title }}</h3>
+    </div>
+    <div class="card-body">
+        <p class="card-text">{{ blog.content }}</p>
+        {% if blog.picture %}
+          <div class="mb-3">
+            <img src="{{ blog.picture.url }}" alt="Image" class="img-fluid">
+          </div>
+        {% else %}
+          <p class="text-muted">Изображение отсутствует</p>
+        {% endif %}
+        <small class="text-muted">
+          Опубликовано: {{ blog.pub_date|date:"d.m.Y H:i" }}
+        </small>
+    </div>
+  </div>
+</div>
+{% endblock %}
