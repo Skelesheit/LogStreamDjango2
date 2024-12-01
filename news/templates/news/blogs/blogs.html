@@ -16,9 +16,9 @@
                 <div class="d-flex flex-row gap-2 align-items-center">
                     <div class="input-group">
                       <span class="input-group-text" id="inputGroup-sizing-default">Поиск</span>
-                      <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                      <input id="searchInputBlog" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
                     </div>
-                    <button class="bg-primary align-self-center rounded-1 border-0" style="width: 2rem;">
+                    <button id="searchButtonBlog" class="bg-primary align-self-center rounded-1 border-0" style="width: 2rem;">
                         <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="none" viewBox="0 0 24 24">
                            <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"/>
                         </svg>
@@ -28,18 +28,17 @@
                         onclick="window.location.href='{% url 'news:create_blog_form' %}'">
                     Создать
                 </button>
-
             </div>
           <div class="card-body mt-2">
             <ul class="list-group list-group-flush">
                 {% if blogs %}
                     {% for blog in blogs %}
-                        <li class="list-group-item">
+                        <li class="list-group-item blog-item">
                             <h5><a href="{% url 'news:view_blog' pk=blog.pk %}">{{ blog.title }}</a></h5>
                             <p> {{ blog.pub_date }}</p>
                             <div class="d-flex flex-row justify-content-end gap-2">
                                 <button class="btn btn-outline-info"
-                                        onclick="window.location.href='{% url 'news:edit_blog' pk=blog.pk %}'">
+                                        onclick="window.location.href='{% url 'news:edit_blog_form' pk=blog.pk %}'">
                                         Изменить
                                 </button>
                                 <button class="btn btn-outline-danger"
@@ -52,7 +51,6 @@
                 {% else %}
                   <p>У вас пока нет опубликованных новостей.</p>
                 {% endif %}
-
             </ul>
           </div>
         </div>
@@ -65,24 +63,34 @@
                 <div class="d-flex flex-row gap-2 align-items-center">
                     <div class="input-group">
                       <span class="input-group-text" id="inputGroup-sizing-default">Поиск</span>
-                      <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                      <input id="commentSearchInput" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
                     </div>
-                    <button class="bg-primary align-self-center rounded-1 border-0" style="width: 2rem;"
+                    <button id="commentSearchButton" class="bg-primary align-self-center rounded-1 border-0" style="width: 2rem;"
                             >
                         <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="none" viewBox="0 0 24 24">
                            <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"/>
                         </svg>
                     </button>
                 </div>
-
             </div>
           <div class="card-body mt-2">
             <ul class="list-group list-group-flush">
                 {% if comments %}
-                    {% for blog in comments %}
-                        <li class="list-group-item">
-                            <h5> {{ blog.title }}</h5>
-                            <p> {{ blog.pub_date }}</p>
+                    {% for comment in comments %}
+                        <li class="list-group-item comment-item">
+                            <h5><a href="{% url 'news:view_blog' pk=comment.news_item.id %}">
+                                {{ comment.news_item.title }}</a>
+                            </h5>
+                            <p class="text-truncate">
+                                {{ comment.content }}
+                            </p>
+                                <div class="d-flex flex-row justify-content-between">
+                                    <p> {{ comment.pub_date }}</p>
+                                    <button class="btn btn-outline-danger"
+                                            onclick="window.location.href='{% url 'news:delete_comment' pk=comment.id %}'">
+                                        Удалить
+                                    </button>
+                                </div>
                         </li>
                     {% endfor %}
                 {% else %}
@@ -93,4 +101,37 @@
         </div>
     </div>
 </div>
+
+    <script>
+    // Фильтрация новостей
+    document.getElementById('searchButtonBlog').addEventListener('click', function() {
+        var searchQuery = document.getElementById('searchInputBlog').value.toLowerCase();
+        var blogs = document.querySelectorAll('.blog-item');
+
+        blogs.forEach(function(blog) {
+            var blogTitle = blog.querySelector('h5 a').textContent.toLowerCase();
+            if (blogTitle.includes(searchQuery)) {
+                blog.style.display = ''; // Показываем элемент
+            } else {
+                blog.style.display = 'none'; // Скрываем элемент
+            }
+        });
+    });
+
+    // Фильтрация комментариев
+    document.getElementById('commentSearchButton').addEventListener('click', function() {
+        var searchQuery = document.getElementById('commentSearchInput').value.toLowerCase();
+        var comments = document.querySelectorAll('.comment-item');
+
+        comments.forEach(function(comment) {
+            var commentText = comment.querySelector('p').textContent.toLowerCase();
+            if (commentText.includes(searchQuery)) {
+                comment.style.display = ''; // Показываем элемент
+            } else {
+                comment.style.display = 'none'; // Скрываем элемент
+            }
+        });
+    });
+</script>
+
 {% endblock %}

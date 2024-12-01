@@ -1,7 +1,7 @@
-{%  extends 'news/layout.html' %}
+{% extends 'news/layout.html' %}
 {% load static %}
 
-{% block title %} Новости {% endblock %}
+{% block title %} Редактирование новости {% endblock %}
 
 {% block head %}
     <link rel="stylesheet" href="{% static 'css/news_list.css' %}">
@@ -11,46 +11,48 @@
 <div class="d-flex flex-column mt-4 align-items-center">
 <div class="card" style="width: 40rem;">
   <div class="card-header text-center">
-      <h3>Публикация новости</h3>
+      <h3>Редактирование новости</h3>
   </div>
   <div class="card-body">
-      <form method="post" action="{% url 'news:create_blog' %}">
+      <form method="post" action="{% url 'news:edit_blog' blog.id %}" enctype="multipart/form-data">
           {% csrf_token %}
           <div class="mb-3">
             <label for="inputTitle" class="form-label">Тема</label>
-            <input value="" name="title" type="text" class="form-control" placeholder="Введите заголовок" id="inputTitle">
+            <input name="title" type="text" class="form-control" value="{{ blog.title }}" id="inputTitle">
           </div>
           <div class="mb-3">
-            <label for="inputTitle" class="form-label">Содержание новости</label>
-            <textarea name="content" class="form-control" id="inputTitle" placeholder="Введите текст"></textarea>
+            <label for="inputContent" class="form-label">Содержание новости</label>
+            <textarea name="content" class="form-control" id="inputContent" placeholder="Введите текст">{{ blog.content }}</textarea>
           </div>
           <div class="mb-3">
             <label for="inputImage" class="form-label">Upload Image</label>
-            <input name="image" type="file" class="form-control" id="inputImage"  accept="image/*">
+            <input name="image" type="file" class="form-control" id="inputImage" accept="image/*">
           </div>
           <div class="mb-3">
-            <label class="form-label">Картинка</label>
+            <label class="form-label">Текущая картинка</label>
             <div id="imagePreview" style="border: 1px dashed #ccc; padding: 10px; text-align: center;">
-              <span>Здесь будет отображаться ваша картинка</span>
+              {% if blog.picture %}
+                <img src="{{ blog.picture.url }}" alt="Image" style="max-width: 100%; height: auto;">
+              {% else %}
+                <span>Здесь будет отображаться ваша картинка</span>
+              {% endif %}
             </div>
           </div>
-          <button type="submit" class="btn btn-success">Опубликовать</button>
+          <button type="submit" class="btn btn-success">Изменить</button>
       </form>
   </div>
 </div>
 </div>
-    <script>
+<script>
   document.getElementById('inputImage').addEventListener('change', function(event) {
-    const file = event.target.files[0]; // Получаем выбранный файл
+    const file = event.target.files[0];
     const previewContainer = document.getElementById('imagePreview');
 
-    // Очистить контейнер
     previewContainer.innerHTML = '';
 
     if (file) {
       const reader = new FileReader();
 
-      // Устанавливаем изображение после загрузки
       reader.onload = function(e) {
         const img = document.createElement('img');
         img.src = e.target.result;
@@ -59,10 +61,9 @@
         previewContainer.appendChild(img);
       };
 
-      // Читаем содержимое файла
       reader.readAsDataURL(file);
     } else {
-      previewContainer.innerHTML = '<span>Здесь будет ваша картинка</span>';
+      previewContainer.innerHTML = '<span>Здесь будет отображаться ваша картинка</span>';
     }
   });
 </script>
