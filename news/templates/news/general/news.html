@@ -1,0 +1,70 @@
+{%  extends 'news/layout.html' %}
+{% load static %}
+
+{% block title %} Новости {% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/news_list.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="d-flex flex-column mt-4 align-items-center gap-4">
+    <div class="card" style="width: 40rem;">
+      <div class="card-header">
+        Поиск новостей
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">фильтрация для быстрого поиска</h5>
+        <div class="d-flex flex-row align-items-center gap-2">
+        <div class="input-group mt-2">
+            <span class="input-group-text" id="inputGroup-sizing-default">Поиск</span>
+            <input id="searchInputBlog" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+        </div>
+          <button id="searchButtonBlog" class="bg-primary align-self-center rounded-1 border-0" style="width: 2rem;">
+              <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="none" viewBox="0 0 24 24">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"/>
+              </svg>
+          </button>
+        </div>
+        <div class="form-check mt-3">
+          <input id="sortByCheckBox" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+          <label class="form-check-label" for="flexCheckDefault">
+            Сначала старые
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="width: 40rem;">
+      <div class="card-header">
+        Новости
+      </div>
+      <div class="card-body">
+        {% if blogs %}
+            {% for blog in blogs %}
+                <li class="list-group-item">
+                <div class="border-1 border-black">
+                    <h5><a href="{% url 'news:view_blog' pk=blog.pk %}">{{ blog.title }}</a></h5>
+                    <p class="fw-bold"> Автор: {{ blog.author.username }}</p>
+                    <p> {{ blog.pub_date }}</p>
+                </div>
+                </li>
+            {% endfor %}
+        {% else %}
+            <p>Новостей нет!</p>
+        {% endif %}
+      </div>
+    </div>
+
+</div>
+<script>
+    document.getElementById("searchButtonBlog").addEventListener("click", function() {
+        var searchValue = document.getElementById("searchInputBlog").value;
+        var sortByDate = document.getElementById("sortByCheckBox")
+        var url = "{% url 'news:get_news' %}?search=" + searchValue;
+        if (sortByDate) { url += "&sort_by_date=false"; }
+        // Выполнение запроса
+        window.location.href = url;
+    });
+</script>
+{% endblock %}

@@ -17,4 +17,5 @@ urlpatterns = [
     path('contacts/', views.get_contacts, name='contacts'),
     path('create_comment/<int:pk>/', views.create_comment, name='create_comment'),
     path('delete_comment/<int:pk>/', views.delete_comment, name='delete_comment'),
+    path('news/', views.get_news, name='get_news')
 ]

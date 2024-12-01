@@ -65,7 +65,7 @@ def delete_blog(request, pk):
     if user.id == blog.author.id:
         blog.delete()
         return redirect('news:blogs')
-    render(request, '400.html', {'message': 'Вы не можете удалять чужую новость'})
+    return render(request, '400.html', {'message': 'Вы не можете удалять чужую новость'})
 
 
 @login_required
@@ -90,7 +90,7 @@ def edit_blog(request, pk):
             blog.save()
             return redirect('news:blogs')
         render(request, '400.html', {'message': 'Вы не можете редактировать эту новость'})
-    render(request, '400.html', {'message': 'Только POST запросы разрешены для редактирования новости'})
+    return render(request, '400.html', {'message': 'Только POST запросы разрешены для редактирования новости'})
 
 
 def view_blog(request, pk):
@@ -109,7 +109,7 @@ def create_comment(request, pk):
         comment = models.Comment.objects.create(author=user, content=content, picture=image, news_item=blog)
         comment.save()
         return redirect('news:view_blog', pk=pk)
-    render(request, '400.html', {'message': 'Только POST запросы разрешены для создания комментариев'})
+    return render(request, '400.html', {'message': 'Только POST запросы разрешены для создания комментариев'})
 
 
 @login_required
@@ -119,4 +119,16 @@ def delete_comment(request, pk):
     if user == comment.author:
         comment.delete()
         return redirect('news:blogs')
-    render(request, '400.html', {'message': 'Вы не можете удалять чужой комментарий'})
+    return render(request, '400.html', {'message': 'Вы не можете удалять чужой комментарий'})
+
+
+def get_news(request):
+    search_query = request.GET.get('search', '')
+    sort_by_date = request.GET.get('sort_by_date', False)
+    blogs = models.NewsItem.objects.all()
+    print(sort_by_date)
+    if search_query:
+        blogs = blogs.filter(title__icontains=search_query)
+    if not sort_by_date:
+        blogs = blogs.order_by('pub_date')
+    return render(request, 'news/general/news.html', {'blogs': blogs})
